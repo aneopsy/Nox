@@ -15,7 +15,7 @@ Data = {
         timez = {
             Version = 0,
         },
-        Tracker = {
+        tracker = {
             Version = 0,
         },
         changelog = {
