@@ -19,7 +19,6 @@ Data = {
         },
     },
     Core = {
-        Changelog = "Nox Version ChangeLog Here",
         Version = 1,
     },
     Loader = {
