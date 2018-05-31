@@ -1,21 +1,21 @@
 Data = {
-    Dependencies = {
-        changelog = {
-            Version = 1,
+    Utilities = {
+        orbwalker = {
+            Version = 0,
         },
+    },
+    Dependencies = {
         timez = {
             Version = 1,
         },
         tracker = {
             Version = 1,
         },
-		menuLoad = {
+        menuLoad = {
             Version = 1,
         },
-    },
-    Utilities = {
-        orbwalker = {
-            Version = 0,
+        changelog = {
+            Version = 1,
         },
     },
     Core = {
