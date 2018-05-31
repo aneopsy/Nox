@@ -1,4 +1,4 @@
-class "RecallTracker"
+class "Tracker"
 
 local function percentToRGB(percent)
     local r, g
@@ -49,25 +49,25 @@ local function percentToRGB(percent)
     return Draw.Color(120, r, g, 0)
 end
 
-function RecallTracker:__init()
-    Menu.RecallTracker:MenuElement({id = "Enabled", name = "Enabled", value = true})
-    Menu.RecallTracker:MenuElement(
+function Tracker:__init()
+    Menu.Tracker:MenuElement({id = "Enabled", name = "Enabled", value = true})
+    Menu.Tracker:MenuElement(
         {id = "gui", name = "Interface", type = MENU, leftIcon = "http://i.imgur.com/rRpSWA6.png"}
     )
-    Menu.RecallTracker.gui:MenuElement({id = "drawGUI", name = "Draw Interface", value = true})
-    Menu.RecallTracker.gui:MenuElement({id = "vertical", name = "Draw Vertical", value = true})
-    Menu.RecallTracker.gui:MenuElement({id = "x", name = "X", value = 50, min = 0, max = Game.Resolution().x, step = 1})
-    Menu.RecallTracker.gui:MenuElement({id = "y", name = "Y", value = 50, min = 0, max = Game.Resolution().y, step = 1})
+    Menu.Tracker.gui:MenuElement({id = "drawGUI", name = "Draw Interface", value = true})
+    Menu.Tracker.gui:MenuElement({id = "vertical", name = "Draw Vertical", value = true})
+    Menu.Tracker.gui:MenuElement({id = "x", name = "X", value = 50, min = 0, max = Game.Resolution().x, step = 1})
+    Menu.Tracker.gui:MenuElement({id = "y", name = "Y", value = 50, min = 0, max = Game.Resolution().y, step = 1})
 
-    Menu.RecallTracker:MenuElement(
+    Menu.Tracker:MenuElement(
         {id = "alert", name = "Gank Alert", type = MENU, leftIcon = "http://i.imgur.com/fXU3MKH.png"}
     )
-    Menu.RecallTracker.alert:MenuElement(
+    Menu.Tracker.alert:MenuElement(
         {id = "range", name = "Detection Range", value = 2500, min = 900, max = 4000, step = 10}
     )
-    Menu.RecallTracker.alert:MenuElement({id = "drawGank", name = "Gank Alert", value = true})
-    Menu.RecallTracker.alert:MenuElement({id = "drawGankFOW", name = "FOW Gank Alert", value = true})
-
+    Menu.Tracker.alert:MenuElement({id = "drawGank", name = "Gank Alert", value = true})
+    Menu.Tracker.alert:MenuElement({id = "drawGankFOW", name = "FOW Gank Alert", value = true})
+    
     DownloadSprite("https://raw.githubusercontent.com/aneopsy/Nox/master/Icons/TrackerGUI.png", "TrackerHUD")
     self.TrackerHUDSprite = Sprite("TrackerHUD", 0.8)
     DownloadSprite("https://raw.githubusercontent.com/aneopsy/Nox/master/Icons/TrackerLoading.png", "TrackerLoading")
@@ -191,7 +191,7 @@ function RecallTracker:__init()
     )
 end
 
-function RecallTracker:GetSpriteByName(name)
+function Tracker:GetSpriteByName(name)
     for i, summonerSprite in pairs(self.summonerSprites) do
         if summonerSprite[2] == name then
             return summonerSprite[1]
@@ -199,7 +199,7 @@ function RecallTracker:GetSpriteByName(name)
     end
 end
 
-function RecallTracker:OnTick()
+function Tracker:OnTick()
     for i = 1, Game.HeroCount() do
         local hero = Game.Hero(i)
         --OnGainVision
@@ -208,7 +208,7 @@ function RecallTracker:OnTick()
                 not hero.dead
          then
             if
-                myHero.pos:DistanceTo(hero.pos) <= Menu.RecallTracker.alert.range:Value() + 90 and
+                myHero.pos:DistanceTo(hero.pos) <= Menu.Tracker.alert.range:Value() + 90 and
                     GetTickCount() - self.invChamp[hero.networkID].lastTick > 5000
              then
                 self.OnGainVision[hero.networkID].status = true
@@ -240,39 +240,39 @@ function RecallTracker:OnTick()
     end
 end
 
-function RecallTracker:OnDraw()
-    if not Menu.RecallTracker.Enabled:Value() then
+function Tracker:OnDraw()
+    if not Menu.Tracker.Enabled:Value() then
         return
     end
     for i, v in pairs(self.invChamp) do
         local d = v.champ.dead
         self.champSprite[v.champ.charName]:Draw(
-            Menu.RecallTracker.gui.x:Value() + 22,
-            Menu.RecallTracker.gui.y:Value() + 90 * (v.n - 1) + 16
+            Menu.Tracker.gui.x:Value() + 22,
+            Menu.Tracker.gui.y:Value() + 90 * (v.n - 1) + 16
         )
         if d then
             self.TrackerDeadSprite:Draw(
-                Menu.RecallTracker.gui.x:Value() + 20,
-                Menu.RecallTracker.gui.y:Value() + 90 * (v.n - 1) + 16
+                Menu.Tracker.gui.x:Value() + 20,
+                Menu.Tracker.gui.y:Value() + 90 * (v.n - 1) + 16
             )
         end
-        self.TrackerHUDSprite:Draw(Menu.RecallTracker.gui.x:Value(), Menu.RecallTracker.gui.y:Value() + 90 * (v.n - 1)+1)
+        self.TrackerHUDSprite:Draw(Menu.Tracker.gui.x:Value(), Menu.Tracker.gui.y:Value() + 90 * (v.n - 1)+1)
         if v.status == false and not d then
             local timer = math.floor((GetTickCount() - v.lastTick) / 900)
             if timer < 350 then
                 Draw.Text(
                     timer,
                     45,
-                    Menu.RecallTracker.gui.x:Value() + 52 - 10 * string.len(timer),
-                    Menu.RecallTracker.gui.y:Value() + 25 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 52 - 10 * string.len(timer),
+                    Menu.Tracker.gui.y:Value() + 25 + 90 * (v.n - 1),
                     Draw.Color(200, 225, 225, 225)
                 )
             else
                 Draw.Text(
                     "AFK",
                     45,
-                    Menu.RecallTracker.gui.x:Value() + 52 - 10 * 3,
-                    Menu.RecallTracker.gui.y:Value() + 30 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 52 - 10 * 3,
+                    Menu.Tracker.gui.y:Value() + 30 + 90 * (v.n - 1),
                     Draw.Color(200, 225, 0, 30)
                 )
             end
@@ -281,14 +281,14 @@ function RecallTracker:OnDraw()
                 Draw.Text(
                     eTimer,
                     18,
-                    Menu.RecallTracker.gui.x:Value() + 276 - 3 * (string.len(eTimer) - 1),
-                    Menu.RecallTracker.gui.y:Value() + 40 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 276 - 3 * (string.len(eTimer) - 1),
+                    Menu.Tracker.gui.y:Value() + 40 + 90 * (v.n - 1),
                     Draw.Color(200, 225, 225, 225)
                 )
             else
                 self.TrackerDangerSprite:Draw(
-                    Menu.RecallTracker.gui.x:Value() + 264,
-                    Menu.RecallTracker.gui.y:Value() + 90 * (v.n - 1) + 32
+                    Menu.Tracker.gui.x:Value() + 264,
+                    Menu.Tracker.gui.y:Value() + 90 * (v.n - 1) + 32
                 )
             end
         end
@@ -298,16 +298,16 @@ function RecallTracker:OnDraw()
                 Draw.Text(
                     "TELEPORT",
                     20,
-                    Menu.RecallTracker.gui.x:Value() + 155,
-                    Menu.RecallTracker.gui.y:Value() + 23 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 155,
+                    Menu.Tracker.gui.y:Value() + 23 + 90 * (v.n - 1),
                     Draw.Color(200, 206, 89, 214)
                 )
             else
                 Draw.Text(
                     "RECALL",
                     20,
-                    Menu.RecallTracker.gui.x:Value() + 155,
-                    Menu.RecallTracker.gui.y:Value() + 23 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 155,
+                    Menu.Tracker.gui.y:Value() + 23 + 90 * (v.n - 1),
                     Draw.Color(200, 16, 235, 240)
                 )
             end
@@ -315,32 +315,32 @@ function RecallTracker:OnDraw()
             Draw.Text(
                 "DEAD",
                 20,
-                Menu.RecallTracker.gui.x:Value() + 162,
-                Menu.RecallTracker.gui.y:Value() + 23 + 90 * (v.n - 1),
+                Menu.Tracker.gui.x:Value() + 162,
+                Menu.Tracker.gui.y:Value() + 23 + 90 * (v.n - 1),
                 Draw.Color(200, 255, 0, 0)
             )
         elseif (v.lastPos == eBasePos or v.lastPos:DistanceTo(eBasePos) < 250) and v.status == false then
             Draw.Text(
                 "BASE",
                 20,
-                Menu.RecallTracker.gui.x:Value() + 162,
-                Menu.RecallTracker.gui.y:Value() + 23 + 90 * (v.n - 1),
+                Menu.Tracker.gui.x:Value() + 162,
+                Menu.Tracker.gui.y:Value() + 23 + 90 * (v.n - 1),
                 Draw.Color(200, 255, 255, 255)
             )
         elseif v.status == false then
             Draw.Text(
                 "MISS",
                 20,
-                Menu.RecallTracker.gui.x:Value() + 162,
-                Menu.RecallTracker.gui.y:Value() + 23 + 90 * (v.n - 1),
+                Menu.Tracker.gui.x:Value() + 162,
+                Menu.Tracker.gui.y:Value() + 23 + 90 * (v.n - 1),
                 Draw.Color(200, 255, 255, 255)
             )
         else
             Draw.Text(
                 "VISIBLE",
                 20,
-                Menu.RecallTracker.gui.x:Value() + 152,
-                Menu.RecallTracker.gui.y:Value() + 23 + 90 * (v.n - 1),
+                Menu.Tracker.gui.x:Value() + 152,
+                Menu.Tracker.gui.y:Value() + 23 + 90 * (v.n - 1),
                 Draw.Color(200, 255, 255, 255)
             )
         end
@@ -353,14 +353,14 @@ function RecallTracker:OnDraw()
             local CutMANA = {x = 0, y = 62, w = 4, h = 62 - 62 * (manaMulti)}
             self.TrackerManaSprite:Draw(
                 CutMANA,
-                Menu.RecallTracker.gui.x:Value() + 14,
-                Menu.RecallTracker.gui.y:Value() + 77 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 14,
+                Menu.Tracker.gui.y:Value() + 77 + 90 * (v.n - 1)
             )
             local CutHP = {x = 0, y = 62, w = 4, h = 62 - 62 * (v.champ.health / v.champ.maxHealth)}
             self.TrackerHPSprite:Draw(
                 CutHP,
-                Menu.RecallTracker.gui.x:Value() + 88,
-                Menu.RecallTracker.gui.y:Value() + 77 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 88,
+                Menu.Tracker.gui.y:Value() + 77 + 90 * (v.n - 1)
             )
 
             if self.isRecalling[v.champ.networkID].status == true then
@@ -371,8 +371,8 @@ function RecallTracker:OnDraw()
                 local recallCut = {x = 0, y = 0, w = r, h = 15}
                 self.TrackerLoadingSprite:Draw(
                     recallCut,
-                    Menu.RecallTracker.gui.x:Value() + 98,
-                    Menu.RecallTracker.gui.y:Value() + 75 + 90 * (v.n - 1)
+                    Menu.Tracker.gui.x:Value() + 98,
+                    Menu.Tracker.gui.y:Value() + 75 + 90 * (v.n - 1)
                 )
             end
         end
@@ -384,13 +384,13 @@ function RecallTracker:OnDraw()
         if FData.level > 0 then
             self.spellSprite[v.champ.charName].Q:Draw(
                 sprCut,
-                Menu.RecallTracker.gui.x:Value() + 107,
-                Menu.RecallTracker.gui.y:Value() + 55 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 107,
+                Menu.Tracker.gui.y:Value() + 55 + 90 * (v.n - 1)
             )
             for z = 1, FData.level do
                 Draw.Rect(
-                    Menu.RecallTracker.gui.x:Value() + 104 + z * 3 - 1,
-                    Menu.RecallTracker.gui.y:Value() + 68 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 104 + z * 3 - 1,
+                    Menu.Tracker.gui.y:Value() + 68 + 90 * (v.n - 1),
                     1,
                     2,
                     Draw.Color(0xFFFFFF00)
@@ -440,13 +440,13 @@ function RecallTracker:OnDraw()
         if FData.level > 0 then
             self.spellSprite[v.champ.charName].W:Draw(
                 sprCut,
-                Menu.RecallTracker.gui.x:Value() + 126,
-                Menu.RecallTracker.gui.y:Value() + 55 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 126,
+                Menu.Tracker.gui.y:Value() + 55 + 90 * (v.n - 1)
             )
             for z = 1, FData.level do
                 Draw.Rect(
-                    Menu.RecallTracker.gui.x:Value() + 123 + z * 3 - 1,
-                    Menu.RecallTracker.gui.y:Value() + 68 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 123 + z * 3 - 1,
+                    Menu.Tracker.gui.y:Value() + 68 + 90 * (v.n - 1),
                     1,
                     2,
                     Draw.Color(0xFFFFFF00)
@@ -458,13 +458,13 @@ function RecallTracker:OnDraw()
         if FData.level > 0 then
             self.spellSprite[v.champ.charName].E:Draw(
                 sprCut,
-                Menu.RecallTracker.gui.x:Value() + 145,
-                Menu.RecallTracker.gui.y:Value() + 55 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 145,
+                Menu.Tracker.gui.y:Value() + 55 + 90 * (v.n - 1)
             )
             for z = 1, FData.level do
                 Draw.Rect(
-                    Menu.RecallTracker.gui.x:Value() + 142 + z * 3 - 1,
-                    Menu.RecallTracker.gui.y:Value() + 68 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 142 + z * 3 - 1,
+                    Menu.Tracker.gui.y:Value() + 68 + 90 * (v.n - 1),
                     1,
                     2,
                     Draw.Color(0xFFFFFF00)
@@ -476,13 +476,13 @@ function RecallTracker:OnDraw()
         if FData.level > 0 then
             self.spellSprite[v.champ.charName].R:Draw(
                 sprCut,
-                Menu.RecallTracker.gui.x:Value() + 165,
-                Menu.RecallTracker.gui.y:Value() + 55 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 165,
+                Menu.Tracker.gui.y:Value() + 55 + 90 * (v.n - 1)
             )
             for z = 1, FData.level do
                 Draw.Rect(
-                    Menu.RecallTracker.gui.x:Value() + 164 + z * 3 - 1,
-                    Menu.RecallTracker.gui.y:Value() + 68 + 90 * (v.n - 1),
+                    Menu.Tracker.gui.x:Value() + 164 + z * 3 - 1,
+                    Menu.Tracker.gui.y:Value() + 68 + 90 * (v.n - 1),
                     1,
                     2,
                     Draw.Color(0xFFFFFF00)
@@ -506,8 +506,8 @@ function RecallTracker:OnDraw()
             local sprCut = {x = 0, y = SpellYOffset, w = 12, h = SpellYOffset + 12}
             SprIdx1:Draw(
                 sprCut,
-                Menu.RecallTracker.gui.x:Value() + 188,
-                Menu.RecallTracker.gui.y:Value() + 55 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 188,
+                Menu.Tracker.gui.y:Value() + 55 + 90 * (v.n - 1)
             )
         end
         --Summoner2
@@ -527,14 +527,14 @@ function RecallTracker:OnDraw()
             local sprCut = {x = 0, y = SpellYOffset, w = 12, h = SpellYOffset + 12}
             SprIdx2:Draw(
                 sprCut,
-                Menu.RecallTracker.gui.x:Value() + 208,
-                Menu.RecallTracker.gui.y:Value() + 55 + 90 * (v.n - 1)
+                Menu.Tracker.gui.x:Value() + 208,
+                Menu.Tracker.gui.y:Value() + 55 + 90 * (v.n - 1)
             )
         end
     end
 end
 
-function RecallTracker:OnProcessRecall(unit, recall)
+function Tracker:OnProcessRecall(unit, recall)
     if self.isRecalling[unit.networkID] == nil then
         return
     end
@@ -578,4 +578,4 @@ function RecallTracker:OnProcessRecall(unit, recall)
     end
 end
 
-RecallTracker()
+Tracker()

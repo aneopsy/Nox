@@ -66,7 +66,7 @@ function Timez:__init()
     Menu.Timez:MenuElement({id = "Enabled", name = "Enabled", value = true})
 	Menu.Timez:MenuElement({id = "FontSize", name = "Font size", value = 24, min = 5, max = 40, step = 1, identifier = ""})
     Menu.Timez:MenuElement({id = "TickLimiter", name = "Limit ticks", value = 200, min = 50, max = 1000, step = 1, tooltip = "Increase it if you have lags", identifier = ""})
-    Menu.Timez:MenuElement({id = "TextColor", name = "Color", color = DrawColor(255, 255, 255, 255)})
+    Menu.Timez:MenuElement({id = "TextColor", name = "Color", color = Draw.Color(255, 255, 255, 255)})
     Menu.Timez:MenuElement({id = "OffSetX", name = "OffSet X", value = 0, min = -50, max = 50, step = 1, identifier = ""})
     Menu.Timez:MenuElement({id = "OffSetY", name = "OffSet Y", value = 0, min = -50, max = 50, step = 1, identifier = ""})
 
