@@ -1,7 +1,7 @@
 --x--
 icons, Menu = {}
 icons.NOX = "https://raw.githubusercontent.com/aneopsy/Nox/master/Icons/NoxLogo.png"
-Menu = MenuElement({name = "Nox | Champs tracker", type = MENU, leftIcon = icons.NOX})
+Menu = MenuElement({name = "Nox | Champs Tracker", type = MENU, leftIcon = icons.NOX})
 
 -- Timez
 Menu:MenuElement(
