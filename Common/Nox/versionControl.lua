@@ -9,6 +9,9 @@ Data = {
         tracker = {
             Version = 1,
         },
+		menuLoad = {
+            Version = 1,
+        },
     },
     Utilities = {
         orbwalker = {

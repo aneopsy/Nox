@@ -1,17 +1,17 @@
 Data = {
     Dependencies = {
         changelog = {
-            Version = 0,
+            Version = 1,
         },
         timez = {
-            Version = 0,
+            Version = 1,
         },
         tracker = {
-            Version = 0,
+            Version = 1,
         },
-    },
-    Loader = {
-        Version = 1,
+		menuLoad = {
+            Version = 1,
+        },
     },
     Utilities = {
         orbwalker = {
@@ -19,8 +19,11 @@ Data = {
         },
     },
     Core = {
-        Version = 1,
         Changelog = "Nox Version ChangeLog Here",
+        Version = 1,
+    },
+    Loader = {
+        Version = 1,
     },
 }
 
