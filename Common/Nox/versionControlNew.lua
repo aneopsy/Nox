@@ -1,15 +1,4 @@
 Data = {
-    Dependencies = {
-        changelog = {
-            Version = 0,
-        },
-        timez = {
-            Version = 0,
-        },
-        tracker = {
-            Version = 0,
-        },
-    },
     Loader = {
         Version = 1,
     },
@@ -19,8 +8,19 @@ Data = {
         },
     },
     Core = {
-        Version = 1,
         Changelog = "Nox Version ChangeLog Here",
+        Version = 1,
+    },
+    Dependencies = {
+        timez = {
+            Version = 0,
+        },
+        tracker = {
+            Version = 0,
+        },
+        changelog = {
+            Version = 0,
+        },
     },
 }
 

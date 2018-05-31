@@ -1,7 +1,7 @@
 --x--
 icons, Menu = {}
 icons.NOX = "https://raw.githubusercontent.com/aneopsy/Nox/master/Icons/NoxLogo.png"
-Menu = MenuElement({id = charName, name = "Nox | Champs tracker", type = MENU, leftIcon = icons.NOX})
+Menu = MenuElement({name = "Nox | Champs tracker", type = MENU, leftIcon = icons.NOX})
 
 -- Timez
 Menu:MenuElement(
@@ -13,12 +13,12 @@ Menu:MenuElement(
     }
 )
 
--- RecallTracker
+-- Tracker
 Menu:MenuElement(
     {
         type = MENU,
-        id = "RecallTracker",
-        name = "Recall Tracker",
+        id = "Tracker",
+        name = "Tracker",
         leftIcon = "http://puu.sh/pPVxo/6e75182a01.png"
     }
 )
